@@ -2544,14 +2544,14 @@ def get_centroids_from_image(image, sigma=2, image_th=None, crop=None, downsampl
             assert filtsize is not None, \
                 'Must define filter size for local median background subtraction'
             assert filtsize % 2 == 1, 'Filter size must be odd'
-            image = image - scipy.ndimage.filters.median_filter(image, size=filtsize,
+            image = image - scipy.ndimage.median_filter(image, size=filtsize,
                                                                 output=image.dtype)
         elif bg_sub_mode.lower() == 'local_mean':
             assert filtsize is not None, \
-                'Must define filter size for local median background subtraction'
+                'Must define filter size for local mean background subtraction'
             assert filtsize % 2 == 1, 'Filter size must be odd'
-            image = image - scipy.ndimage.filters.uniform_filter(image, size=filtsize,
-                                                                 output=image.dtype)
+            image = image - scipy.ndimage.uniform_filter(image, size=filtsize,
+                                                         output=image.dtype)
         elif bg_sub_mode.lower() == 'global_median':
             image = image - np.median(image)
         elif bg_sub_mode.lower() == 'global_mean':
@@ -2570,13 +2570,13 @@ def get_centroids_from_image(image, sigma=2, image_th=None, crop=None, downsampl
         if sigma_mode.lower() == 'local_median_abs':
             assert filtsize is not None, 'Must define filter size for local median sigma mode'
             assert filtsize % 2 == 1, 'Filter size must be odd'
-            img_std = scipy.ndimage.filters.median_filter(np.abs(image), size=filtsize,
+            img_std = scipy.ndimage.median_filter(np.abs(image), size=filtsize,
                                                           output=image.dtype) * 1.48
         elif sigma_mode.lower() == 'local_root_square':
             assert filtsize is not None, 'Must define filter size for local median sigma mode'
             assert filtsize % 2 == 1, 'Filter size must be odd'
-            img_std = np.sqrt(scipy.ndimage.filters.uniform_filter(image**2, size=filtsize,
-                                                                   output=image.dtype))
+            img_std = np.sqrt(scipy.ndimage.uniform_filter(image**2, size=filtsize,
+                                                            output=image.dtype))
         elif sigma_mode.lower() == 'global_median_abs':
             img_std = np.median(np.abs(image)) * 1.48
         elif sigma_mode.lower() == 'global_root_square':
